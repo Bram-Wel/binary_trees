@@ -12,6 +12,6 @@ int binary_tree_is_leaf(const binary_tree_t *node)
 
 	if (node && !node->left && !node->right)
 		retval = 1;
-	return retval;
+	return (retval);
 
 }
