@@ -1,22 +1,61 @@
 #include "binary_trees.h"
-#include "9-binary_tree_height.c"
 
 /**
-* binary_tree_balance - Measure the balance factor of a tree
-*
-* @tree: Pointer to root node
-* Return: Balance factor or 0 for non-existent tree
-*/
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	int left, right;
+ * tree_depth - claculates the depth of a binary tree
+ * @tree: binaryb tree
+ * Return: depth of the binary tree
+ */
 
-	if (tree)
+int tree_depth(const binary_tree_t *tree)
+{
+	int depth = 0;
+
+	while (tree != NULL)
 	{
-		left = binary_tree_height(tree->left);
-		/*tree->left && left == 0 ? left += 1 : left;*/
-		right = binary_tree_height(tree->right);
-		/*tree->right && right == 0 ? right += 1 : right;*/
+		depth += 1;
+		tree = tree->left;
 	}
-	return (!tree ? 0 : left - right);
+
+	return (depth);
+}
+
+/**
+ * tree_is_perfect - chacks if binary tree is perfect
+ * @tree: binary tree
+ * @depth: depth of the binary tree
+ * @level: level
+ * Return: 1 if binary tree is perfect, 0 otherwise
+ */
+
+int tree_is_perfect(const binary_tree_t *tree, int depth, int level)
+{
+	if (tree->left == NULL && tree->right == NULL)
+	{
+		if (depth == (level + 1))
+			return (1);
+	}
+
+	if (tree->left == NULL || tree->right == NULL)
+		return (0);
+
+	level += 1;
+
+	return (tree_is_perfect(tree->left, depth, level) &&
+		tree_is_perfect(tree->right, depth, level));
+}
+
+/**
+ * binary_tree_is_perfect - checks if a binary tree is perfect
+ * @tree: binary tree
+ * Return: 1 if binary tree is perfect, 0 otherwise
+ */
+
+int binary_tree_is_perfect(const binary_tree_t *tree)
+{
+	int depth = tree_depth(tree);
+
+	if (tree == NULL)
+		return (0);
+
+	return (tree_is_perfect(tree, depth, 0));
 }
