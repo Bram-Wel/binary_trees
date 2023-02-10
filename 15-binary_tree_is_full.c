@@ -1,5 +1,6 @@
 #include "binary_trees.h"
 #include "4-binary_tree_is_leaf.c"
+#include <stdio.h>
 
 /**
 * binary_tree_is_full - Check for a binary tree
@@ -11,13 +12,12 @@ int binary_tree_is_full(const binary_tree_t *tree)
 {
 	int retval = 0;
 
-	if (tree && retval != 1)
+	if (tree)
 	{
-		retval = binary_tree_is_full(tree->left);
-		retval = binary_tree_is_full(tree->right);
-		if (binary_tree_is_leaf(tree) &&
-		(tree->parent->right && tree->parent->left))
+		if (binary_tree_is_leaf(tree))
 			retval = 1;
+		else
+			retval = binary_tree_is_full(tree->left) && binary_tree_is_full(tree->right);
 	}
 	return (retval);
 }
