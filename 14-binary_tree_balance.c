@@ -1,61 +1,55 @@
 #include "binary_trees.h"
 
 /**
- * tree_depth - claculates the depth of a binary tree
- * @tree: binaryb tree
- * Return: depth of the binary tree
- */
-
-int tree_depth(const binary_tree_t *tree)
-{
-	int depth = 0;
-
-	while (tree != NULL)
-	{
-		depth += 1;
-		tree = tree->left;
-	}
-
-	return (depth);
-}
-
-/**
- * tree_is_perfect - chacks if binary tree is perfect
+ * tree_height - recursively calculates the height of a binary tree
  * @tree: binary tree
- * @depth: depth of the binary tree
- * @level: level
- * Return: 1 if binary tree is perfect, 0 otherwise
+ * Return: height of the binary tree
  */
 
-int tree_is_perfect(const binary_tree_t *tree, int depth, int level)
+size_t tree_height(const binary_tree_t *tree)
 {
-	if (tree->left == NULL && tree->right == NULL)
-	{
-		if (depth == (level + 1))
-			return (1);
-	}
+	size_t l_height = 0, r_height = 0;
 
-	if (tree->left == NULL || tree->right == NULL)
+	if (tree == NULL) /* base case */
 		return (0);
 
-	level += 1;
+	l_height = tree_height(tree->left) + 1;
+	r_height = tree_height(tree->right) + 1;
 
-	return (tree_is_perfect(tree->left, depth, level) &&
-		tree_is_perfect(tree->right, depth, level));
+	if (r_height > l_height)
+		return (r_height);
+
+	return (l_height);
 }
 
 /**
- * binary_tree_is_perfect - checks if a binary tree is perfect
+ * binary_tree_height - calculates the height of a binary tree
  * @tree: binary tree
- * Return: 1 if binary tree is perfect, 0 otherwise
+ * Return: height of the binary tree
  */
 
-int binary_tree_is_perfect(const binary_tree_t *tree)
+size_t binary_tree_height(const binary_tree_t *tree)
 {
-	int depth = tree_depth(tree);
+	return (tree_height(tree) - 1);
+}
+
+/**
+ * binary_tree_balance - measures the balance factor of a binary tree
+ * @tree: binary tree
+ * Return: balance factor of the binary tree
+ */
+
+int binary_tree_balance(const binary_tree_t *tree)
+{
+	size_t l_balance = 0, r_balance = 0;
+	int balance_factor = 0;
 
 	if (tree == NULL)
 		return (0);
 
-	return (tree_is_perfect(tree, depth, 0));
+	l_balance = binary_tree_height(tree->left);
+	r_balance = binary_tree_height(tree->right);
+	balance_factor = l_balance - r_balance;
+
+	return (balance_factor);
 }
