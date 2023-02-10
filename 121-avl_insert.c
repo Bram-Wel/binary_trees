@@ -48,7 +48,7 @@ void recurse_for_balance(binary_tree_t *tree)
 	if (!tree)
 		return;
 
-	printf("tree (in balance) = %d\n", tree->n);
+	/*printf("tree (in balance) = %d\n", tree->n);*/
 
 	balFactor = binary_tree_balance(tree);
 
@@ -56,13 +56,13 @@ void recurse_for_balance(binary_tree_t *tree)
 	{
 		binary_tree_print(tree);
 		tree = binary_tree_rotate_right(tree);
-		printf("Rotated right\n");
+		/*printf("Rotated right\n");*/
 	}
 	else if (balFactor > 1)
 	{
 		binary_tree_print(tree);
 		tree = binary_tree_rotate_left(tree);
-		printf("Rotated left\n");
+		/*printf("Rotated left\n");*/
 	}
 	recurse_for_balance(tree->parent);
 }
